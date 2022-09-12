@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import {useState} from 'react';
 import './App.css';
+import { Routes, Route } from "react-router-dom";
+import { CarBuilderForm } from './CarBuilderForm';
+import { ConfirmationForm } from './ConfirmationForm';
+
+
+export enum VehicleColor {
+  blue = "Blue",
+  red = "Red",
+  yellow = "Yellow",
+}
+
+export enum VehicleType {
+  truck = "Truck",
+  van = "Van"
+}
+
+export enum VehicleHasCamperAddOn {
+  yes = "yes",
+  no = "no"
+}
+
+export interface IVehicle {
+  type: VehicleType,
+  color: VehicleColor,
+  camperAddOn: VehicleHasCamperAddOn
+}
 
 function App() {
+  const [vehicle, setVehicle] = useState<IVehicle>({type: VehicleType.truck, color: VehicleColor.blue, camperAddOn: VehicleHasCamperAddOn.no})
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{padding: "1em"}}>
+      <Routes>
+        <Route path="/" element={<CarBuilderForm vehicleState={vehicle} updateVehicleState={setVehicle} />} />
+        <Route path="/confirmation" element={<ConfirmationForm vehicleState={vehicle} />} />
+      </Routes>
     </div>
+    
   );
 }
 
 export default App;
+
